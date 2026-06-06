@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Курсові Ігри на Python</title>
+    <style>
+      :root {
+        --bg-color: #f4f6f9;
+        --card-bg: #ffffff;
+        --text-color: #333333;
+        --accent-color: #4f46e5;
+        --accent-hover: #4338ca;
+        --warning-bg: #fffbeb;
+        --warning-border: #f59e0b;
+        --warning-text: #b45309;
+        --shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      header h1 {
+        color: #1e1b4b;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        color: #6b7280;
+        font-size: 1.1rem;
+      }
+
+      /* Стилі для попередження */
+      .antivirus-warning {
+        background-color: var(--warning-bg);
+        border-left: 4px solid var(--warning-border);
+        color: var(--warning-text);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 40px;
+        box-shadow: var(--shadow);
+      }
+
+      .antivirus-warning h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.2rem;
+      }
+
+      .antivirus-warning p {
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      /* Сітка для карток */
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      /* Картка гри */
+      .game-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .game-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+
+      .author-name {
+        font-size: 1.1rem;
+        color: #b45309;
+        margin-bottom: 15px;
+        font-style: italic;
+      }
+
+      .game-description {
+        font-size: 0.95rem;
+        color: #4b5563;
+        margin-bottom: 20px;
+        flex-grow: 1;
+      }
+
+      .download-btn {
+        display: block;
+        text-align: center;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+      }
+
+      .download-btn:hover {
+        background-color: var(--accent-hover);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Ігри на Python: курсові роботи учнів</h1>
+        <p>
+          Тут Ви можете безпечно завантажити файл гри на ком'ютер (15-20мб),
+          запустити та пограти😊
+          <br />
+          Жодних додаткових налаштувань не потрібно!
+        </p>
+      </header>
+
+      <!-- Блок попередження про антивіруси -->
+      <div class="antivirus-warning">
+        <p>
+          ⚠️ Всі ігри скомпільовані у файли <strong>.exe</strong>. Оскільки ці
+          програми є некомерційними учнівськими проєктами й не мають платного
+          цифрового підпису розробника, ваш браузер може видати попередження про
+          "невідомий або небезпечний файл".
+        </p>
+        <p style="margin-top: 10px">
+          <strong>Що робити?</strong> Проєкти абсолютно безпечні та не містять
+          шкідливого коду. Якщо Windows блокує запуск, натисніть посилання
+          <em>"Додатково" (More info)</em>, а потім кнопку
+          <em>"Виконати в будь-якому разі" (Run anyway)</em>.
+        </p>
+      </div>
+      <p style="text-align: center; margin-bottom: 24px">
+        Для зручності роботи розміщені за алфавітом
+      </p>
+      <!-- Сюди за допомогою JavaScript будуть додаватися картки -->
+      <div class="games-grid" id="gamesContainer"></div>
+    </div>
+
+    <script>
+      // ДАНІ ДЛЯ РЕДАГУВАННЯ: Просто змінюйте, додавайте або видаляйте блоки всередині [ ]
+      // Обов'язково ставте кому між блоками { }
+      const gamesData = [
+        {
+          author: "Борисенко Владислав",
+          title: "Mini Clash Royale",
+          description:
+            "Міні-версія популярної гри Clash Royale. Натискайте мишкою на прямокутники з воїнами",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Mini_Clash_Royale_by_Borysenko_Vladyslav.exe",
+        },
+        {
+          author: "Єсманчук Нікіта",
+          title: "Sea Subway",
+          description:
+            "Яскрава 2D версія гри Subway Surfers. Збирайте монети, уникайте ворогів! Керування стрілками на клавіатурі. Для виходу можна застосувати Alt+F4",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/2D_Sea_Subway_by_Esmanchuk_Nikita.exe",
+        },
+        {
+          author: "Єфремов Кирило",
+          title: "Змійка",
+          description:
+            "Гра Змійка з декількома варіантами їжі. Керування - стрілками на клавіатурі",
+          // "Класичний аркадний шутер у космосі. Керуйте кораблем, уникайте астероїдів та збивайте ворожі НЛО. Написано за допомогою бібліотеки Pygame.",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Snake_by_Efremov_Kiril.exe",
+        },
+        {
+          author: "Земляк Данил",
+          title: "Rob Cave Expedition",
+          description:
+            "Гра-головоломка. Необхідно знищити всіх ворогів. Керування - стрілками на клавіатурі",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Rob_Cave_Expedition_by_Zemlyak_Danyl.exe",
+        },
+        {
+          author: "Колесник Тимофій",
+          title: "Ping-Pong",
+          description:
+            "Настільний онлайн-теніс для двох гравців. Керування: один гравець - клавіші w s, другий - стрілки на клавіатурі вверх-вниз",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Ping-Pong_by_Kolesnyk_Tymofiy.exe",
+        },
+        {
+          author: "Книш Тарас",
+          title: "2048",
+          description:
+            "Гра 2048 з підрахунком балів. З секретним кодом: Ctrl+Shift+T",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/2048_by_Knysh_Taras.exe",
+        },
+        {
+          author: "Лупандін Павло",
+          title: "Space_Hero",
+          description:
+            "Динамічний шутер у космосі. Керуйте літаком за допомогою клавіш a d, стріляйте по астероїдах кліком миші. Пропускати астероїди не можна!",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Space_Hero_by_Lupandin_Pavlo.exe",
+        },
+        {
+          author: "Макаренко Мілана",
+          title: "MP3-плеєр",
+          description:
+            "Слухайте улюблені треки за допомогою MP3-плеєру, має багато корисних функцій. Біля плеєру може з'явитися файл playlist.json. Це абсолютно невірусний файл, там зберігаються Ваші записані плейлісти",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/MP3_player_by_Makarenko_Milana.exe",
+        },
+        {
+          author: "Павленко Тимур",
+          title: "Block Coins",
+          description:
+            "Керування гравцем - стрілками на клавіатурі. Збирайте монети, уникайте важких предметів!",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Block_Coins_by_Pavlenko_Tymur.exe",
+        },
+        {
+          author: "Сайдаков Роман",
+          title: "Tower Defense",
+          description:
+            "Клікайте мишкою та вбивайте мурах. Не дозвольте їм дістатись до фортеці",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Tower_Defense_by_Saidakov_Roman.exe",
+        },
+        {
+          author: "Свирида Артем",
+          title: "Block Puzzle",
+          description:
+            "Перетягуйте блоки мишкою на поле, заповнюйте горизонтальні та вертикальні рядки. Є підступний великий блок, який може допомогти як виграти, так і програти",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Block_Puzzle_by_Svyryda_Artem.exe",
+        },
+        {
+          author: "Ушева Катерина",
+          title: "Лови літери",
+          description:
+            "Керуйте стрілками на клавіатурі, ловіть падаючі предмети. Спробуйте підійти до героя, що стоїть поруч",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Go_work_by_Usheva_Kateryna.exe",
+        },
+        {
+          author: "Федорчук Артем",
+          title: "Втеча привида",
+          description:
+            "Керуйте стрілками на клавіатурі вліво-вправо, стрибати - пробілом. При програші або виграші - гра зупиняється на 5с і автоматично закривається",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Ghost_escape_by_Fedorchuk_Artem.exe",
+        },
+        {
+          author: "Шитюк Назар",
+          title: "Galaxy Strike",
+          description:
+            "Яскравий космічний шутер. Керувати літаком - клавіші a d s w, стріляти - мишкою. Збивайте астероїди, отримуйте бали",
+          downloadUrl:
+            "https://github.com/alg-delta/pygames2026/releases/download/v1.0/Galaxy_Strike_by_Shytjuk_Nazar.exe",
+        },
+      ];
+
+      // ФУНКЦІЯ ЦИКЛУ: Сама відмальовує картки на основі масиву вище
+      function renderGames() {
+        const container = document.getElementById("gamesContainer");
+        container.innerHTML = ""; // Очищення перед рендером
+
+        gamesData.forEach((game) => {
+          // Створення елемента картки
+          const card = document.createElement("div");
+          card.className = "game-card";
+
+          card.innerHTML = `
+                    <h2 class="game-title">${game.author}</h2>
+                    <div class="author-name">${game.title}</div>
+                    <p class="game-description">${game.description}</p>
+                    <a href="${game.downloadUrl}" class="download-btn" download>Завантажити .exe</a>
+                `;
+
+          // Додавання картки в сітку
+          container.appendChild(card);
+        });
+      }
+
+      // Запуск відмальовування при завантаженні сторінки
+      window.onload = renderGames;
+    </script>
+  </body>
+</html>
